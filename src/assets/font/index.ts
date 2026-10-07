@@ -1,0 +1,15 @@
+export const FONT = {
+  SpaceGroteskBold: 'SpaceGrotesk-Bold',
+  SpaceGroteskLight: 'SpaceGrotesk-Light',
+  SpaceGroteskMedium: 'SpaceGrotesk-Medium',
+  SpaceGroteskRegular: 'SpaceGrotesk-Regular',
+  SpaceGroteskSemiBold: 'SpaceGrotesk-SemiBold',
+  NeueMontrealBold: 'NeueMontreal-Bold',
+  NeueMontrealBoldItalic: 'NeueMontreal-BoldItalic',
+  NeueMontrealItalic: 'NeueMontreal-Italic',
+  NeueMontrealLight: 'NeueMontreal-Light',
+  NeueMontrealLightItalic: 'NeueMontreal-LightItalic',
+  NeueMontrealMedium: 'NeueMontreal-Medium',
+  NeueMontrealMediumItalic: 'NeueMontreal-MediumItalic',
+  NeueMontrealRegular: 'NeueMontreal-Regular',
+} as const;
