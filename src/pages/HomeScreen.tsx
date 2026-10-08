@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Pressable,
   RefreshControl,
@@ -7,37 +7,37 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import FuelPumpOutline from '../assets/Svg/FuelPumpOutline.svg';
-import GasIcon from '../assets/Svg/GasIcon.svg';
-import OrderIcon from '../assets/Svg/OrderIcon.svg';
-import SupportIcon from '../assets/Svg/SupportIcon.svg';
-import TabWalletIcon from '../assets/Svg/TabWalletIcon.svg';
-import UserOutline from '../assets/Svg/UserOutline.svg';
-import BannerCarousel from '../components/BannerCarousel';
-import BottomTabBar, { TabKey } from '../components/BottomTabBar';
-import HomeHeader from '../components/HomeHeader';
-import { colors } from '../constants/colors';
-import { RootStackParamList } from '../routes/types';
-import { fontFamilies } from '../styles/typography';
-import { DashboardData, getDashboard } from '../services/dashboardService';
+} from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { SafeAreaView } from "react-native-safe-area-context";
+import InventoryIcon from "../assets/Svg/InventoryIcon.svg";
+import NFCCardIcon from "../assets/Svg/NFCCardIcon.svg";
+import PrintRecIcon from "../assets/Svg/PrintRecIcon.svg";
+import QR from "../assets/Svg/QR.svg";
+import Setting from "../assets/Svg/Setting.svg";
+import FuelPumpOutline from "../assets/Svg/FuelPumpOutline.svg";
+import GasIcon from "../assets/Svg/GasIcon.svg";
+import BottomTabBar, { TabKey } from "../components/BottomTabBar";
+import HomeHeader from "../components/HomeHeader";
+import { colors } from "../constants/colors";
+import { RootStackParamList } from "../routes/types";
+import { fontFamilies } from "../styles/typography";
+import { DashboardData, getDashboard } from "../services/dashboardService";
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 const quickOptions = [
-  { label: 'Request', Icon: OrderIcon },
-  { label: 'My Orders', Icon: OrderIcon },
-  { label: 'Profile', Icon: UserOutline },
-  { label: 'Wallet', Icon: TabWalletIcon },
-  { label: 'RFID Card', Icon: OrderIcon },
-  { label: 'Support', Icon: SupportIcon },
+  { label: "Scan QR", Icon: QR },
+  { label: "Read NFC", Icon: NFCCardIcon },
+  { label: "Transaction", Icon: PrintRecIcon },
+  { label: "Inventory", Icon: InventoryIcon },
+  { label: "Print Receipt", Icon: PrintRecIcon },
+  { label: "Settings", Icon: Setting },
 ];
 const fuelColors: Record<string, string> = {
-  DIESEL: '#17B32A',
-  PETROL: '#E65A18',
-  LPG: '#172B73',
+  DIESEL: "#17B32A",
+  PETROL: "#E65A18",
+  LPG: "#172B73",
 };
 
 const formatMoney = (amountMinor: number, currency: string) =>
@@ -45,11 +45,14 @@ const formatMoney = (amountMinor: number, currency: string) =>
 
 const formatOrderDate = (date: string) => {
   const parsedDate = new Date(date);
-  if (Number.isNaN(parsedDate.getTime())) return '';
-  return `${parsedDate.toLocaleDateString()} . ${parsedDate.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-  })}`;
+  if (Number.isNaN(parsedDate.getTime())) return "";
+  return `${parsedDate.toLocaleDateString()} . ${parsedDate.toLocaleTimeString(
+    [],
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    },
+  )}`;
 };
 
 const formatQuantity = (quantityMl: number) => {
@@ -58,7 +61,7 @@ const formatQuantity = (quantityMl: number) => {
 };
 
 const formatStatus = (status: string) =>
-  status.toLowerCase().replace(/\b\w/g, character => character.toUpperCase());
+  status.toLowerCase().replace(/\b\w/g, (character) => character.toUpperCase());
 
 export default function HomeScreen({ navigation }: Props) {
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
@@ -70,7 +73,7 @@ export default function HomeScreen({ navigation }: Props) {
       const response = await getDashboard();
       if (response.success) setDashboard(response.data);
     } catch (error) {
-      console.warn('Unable to load dashboard data', error);
+      console.warn("Unable to load dashboard data", error);
     } finally {
       setIsRefreshing(false);
     }
@@ -81,86 +84,78 @@ export default function HomeScreen({ navigation }: Props) {
   }, [loadDashboard]);
 
   const onTabPress = (tab: TabKey) => {
-    if (tab === 'orders') {
-      navigation.navigate('OrdersHistory');
+    if (tab === "orders") {
+      navigation.navigate("OrdersHistory");
     }
-    if (tab === 'newOrder') {
-      navigation.navigate('Order');
+    if (tab === "newOrder") {
+      navigation.navigate("Order");
     }
-    if (tab === 'profile') {
-      navigation.navigate('Profile');
+    if (tab === "profile") {
+      navigation.navigate("Profile");
     }
-    if (tab === 'wallet') {
-      navigation.navigate('Wallet');
+    if (tab === "wallet") {
+      navigation.navigate("Wallet");
     }
   };
 
   const staticPrices = [
-  {
-    _id: 'static-diesel',
-    code: 'DIESEL',
-    name: 'Diesel',
-    priceMinor: '1.36',
-  },
-  {
-    _id: 'static-petrol',
-    code: 'PETROL',
-    name: 'Petrol',
-    priceMinor: '1.55',
-  },
-  {
-    _id: 'static-lpg',
-    code: 'LPG',
-    name: 'LPG (Cooking Gas)',
-    priceMinor: '0.36',
-  },
-];
+    {
+      _id: "static-diesel",
+      code: "DIESEL",
+      name: "Diesel",
+      priceMinor: "1.36",
+    },
+    {
+      _id: "static-petrol",
+      code: "PETROL",
+      name: "Petrol",
+      priceMinor: "1.55",
+    },
+    {
+      _id: "static-lpg",
+      code: "LPG",
+      name: "LPG (Cooking Gas)",
+      priceMinor: "0.36",
+    },
+  ];
 
-const staticOrders = [
-  {
-    _id: '#ORD123',
-    fuelName: 'Diesel',
-    quantityMl: 200000,
-    createdAt: new Date().toISOString(),
-    status: 'DELIVERED',
-  },
-  {
-    _id: '#ORD124',
-    fuelName: 'Diesel',
-    quantityMl: 200000,
-    createdAt: new Date().toISOString(),
-    status: 'PENDING',
-  },
-];
+  const staticOrders = [
+    {
+      _id: "#ORD123",
+      fuelName: "Diesel",
+      quantityMl: 200000,
+      createdAt: new Date().toISOString(),
+      status: "DELIVERED",
+    },
+    {
+      _id: "#ORD124",
+      fuelName: "Diesel",
+      quantityMl: 200000,
+      createdAt: new Date().toISOString(),
+      status: "PENDING",
+    },
+  ];
   return (
-    <SafeAreaView edges={['top']} style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.navyDark} />
+    <>
+    <SafeAreaView edges={["top"]} style={styles.safeArea}>
+      <StatusBar barStyle="light-content" backgroundColor={colors.navyDark} translucent={false} />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
-        refreshControl={<RefreshControl colors={[colors.primary]} onRefresh={() => loadDashboard(true)} refreshing={isRefreshing} tintColor={colors.primary} />}
+        refreshControl={
+          <RefreshControl
+            colors={[colors.primary]}
+            onRefresh={() => loadDashboard(true)}
+            refreshing={isRefreshing}
+            tintColor={colors.primary}
+          />
+        }
         showsVerticalScrollIndicator={false}
       >
         <HomeHeader
-          name={dashboard?.user.name ?? ' '}
-          balance={dashboard ? formatMoney(dashboard.wallet.balanceMinor, dashboard.wallet.currency) : undefined}
+          name={dashboard?.user.name ?? "Kevin Piter"}
           notificationCount={dashboard?.unreadNotifications ?? 0}
-          onAddMoney={() => navigation.navigate('AddMoney')}
         />
         <View style={styles.body}>
-          <View style={styles.availableBalanceCard}>
-            <Text style={styles.availableBalanceTitle}>Available Balance</Text>
-            <Text style={styles.availableBalanceAmount}>200.25 L</Text>
-            <View style={styles.limitsRow}>
-              <View>
-                <Text style={styles.limitLabel}>Total Limit</Text>
-                <Text style={styles.limitAmount}>500.00 L</Text>
-              </View>
-              <View style={styles.availableLimit}>
-                <Text style={styles.limitLabel}>Available Limit</Text>
-                <Text style={styles.limitAmount}>200.25 L</Text>
-              </View>
-            </View>
-          </View>
           <View style={styles.titleRow}>
             <Text style={styles.sectionTitle}>Quick Option</Text>
             <Text style={styles.viewAll}>View ALL</Text>
@@ -170,11 +165,11 @@ const staticOrders = [
               <Pressable
                 key={label}
                 onPress={() => {
-                  if (label === 'New Order') navigation.navigate('Order');
-                  if (label === 'My Orders')
-                    navigation.navigate('OrdersHistory');
-                  if (label === 'Profile') navigation.navigate('Profile');
-                  if (label === 'Wallet') navigation.navigate('Wallet');
+                  if (label === "New Order") navigation.navigate("Order");
+                  if (label === "My Orders")
+                    navigation.navigate("OrdersHistory");
+                  if (label === "Profile") navigation.navigate("Profile");
+                  if (label === "Wallet") navigation.navigate("Wallet");
                 }}
                 style={({ pressed }) => [
                   styles.quickCard,
@@ -182,15 +177,17 @@ const staticOrders = [
                 ]}
               >
                 <Icon
-                  width={label === 'Support' ? 34 : 28}
-                  height={label === 'Support' ? 34 : 30}
+                  width={label === "Support" ? 34 : 28}
+                  height={label === "Support" ? 34 : 30}
                   color={colors.primary}
                 />
                 <Text style={styles.quickLabel}>{label}</Text>
               </Pressable>
             ))}
           </View>
-          {/* <View style={styles.carousel}>
+          {false && (
+            <>
+              {/* <View style={styles.carousel}>
             <BannerCarousel
               images={[
                 require('../assets/Images/banner-image1.png'),
@@ -198,115 +195,132 @@ const staticOrders = [
               ]}
             />
           </View>  */}
-          <View style={styles.titleRow}>
-            <Text style={styles.sectionTitle}>Fuel Price Today</Text>
-            <Text style={styles.unit}>BND/ Litre</Text>
-          </View>
-          <View style={styles.priceList}>
-            {(dashboard?.fuels ?? staticPrices).map(item => (
-              <View key={item._id} style={styles.priceCard}>
-                {item.code === 'LPG' ? (
-                  <GasIcon width={15} height={29} />
-                ) : (
-                  <FuelPumpOutline width={24} height={28} color={fuelColors[item.code] ?? colors.primary} />
-                )}
-                <Text style={styles.priceLabel}>{item.name}</Text>
-                <Text style={styles.price}>{item.priceMinor}</Text>
-                <View
-                  style={[styles.priceDot, { backgroundColor: fuelColors[item.code] ?? colors.primary }]}
-                />
+              <View style={styles.titleRow}>
+                <Text style={styles.sectionTitle}>Fuel Price Today</Text>
+                <Text style={styles.unit}>BND/ Litre</Text>
               </View>
-            ))}
-          </View>
-          <View style={[styles.titleRow, styles.orderHeading]}>
-            <Text style={styles.sectionTitle}>Recent Orders</Text>
-            <Text style={styles.viewAll}>View ALL</Text>
-          </View>
-          {(dashboard?.recentOrders ?? staticOrders).map(order => (
-            <View key={order._id} style={styles.orderCard}>
-              <FuelPumpOutline width={29} height={33} color="#17B32A" />
-              <View style={styles.orderInfo}>
-                <Text style={styles.orderId}>{order._id}</Text>
-                <Text style={styles.orderDetail}>{order.fuelName} . {formatQuantity(order.quantityMl)}</Text>
-                <Text style={styles.orderDate}>{formatOrderDate(order.createdAt)}</Text>
+              <View style={styles.priceList}>
+                {(dashboard?.fuels ?? staticPrices).map((item) => (
+                  <View key={item._id} style={styles.priceCard}>
+                    {item.code === "LPG" ? (
+                      <GasIcon width={15} height={29} />
+                    ) : (
+                      <FuelPumpOutline
+                        width={24}
+                        height={28}
+                        color={fuelColors[item.code] ?? colors.primary}
+                      />
+                    )}
+                    <Text style={styles.priceLabel}>{item.name}</Text>
+                    <Text style={styles.price}>{item.priceMinor}</Text>
+                    <View
+                      style={[
+                        styles.priceDot,
+                        {
+                          backgroundColor:
+                            fuelColors[item.code] ?? colors.primary,
+                        },
+                      ]}
+                    />
+                  </View>
+                ))}
               </View>
-              <View
-                style={[
-                  styles.delivered,
-                  order.status !== 'DELIVERED' && styles.deliveredOutline,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.deliveredText,
-                    order.status !== 'DELIVERED' && styles.deliveredOutlineText,
-                  ]}
-                >
-                  {formatStatus(order.status)}
-                </Text>
+              <View style={[styles.titleRow, styles.orderHeading]}>
+                <Text style={styles.sectionTitle}>Recent Orders</Text>
+                <Text style={styles.viewAll}>View ALL</Text>
               </View>
-            </View>
-          ))}
+              {(dashboard?.recentOrders ?? staticOrders).map((order) => (
+                <View key={order._id} style={styles.orderCard}>
+                  <FuelPumpOutline width={29} height={33} color="#17B32A" />
+                  <View style={styles.orderInfo}>
+                    <Text style={styles.orderId}>{order._id}</Text>
+                    <Text style={styles.orderDetail}>
+                      {order.fuelName} . {formatQuantity(order.quantityMl)}
+                    </Text>
+                    <Text style={styles.orderDate}>
+                      {formatOrderDate(order.createdAt)}
+                    </Text>
+                  </View>
+                  <View
+                    style={[
+                      styles.delivered,
+                      order.status !== "DELIVERED" && styles.deliveredOutline,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.deliveredText,
+                        order.status !== "DELIVERED" &&
+                          styles.deliveredOutlineText,
+                      ]}
+                    >
+                      {formatStatus(order.status)}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          )}
         </View>
       </ScrollView>
       <BottomTabBar activeTab="home" onTabPress={onTabPress} />
     </SafeAreaView>
-  );
+  </>);
 }
 
 const styles = StyleSheet.create({
-  safeArea: { backgroundColor: colors.navyDark, flex: 1 },
-  scrollContent: { backgroundColor: '#FFF', paddingBottom: 12 },
-  body: { paddingHorizontal: 18 },
+  safeArea: { backgroundColor: "#F4F6FB", flex: 1 },
+  scrollContent: { backgroundColor: "#F4F6FB", paddingBottom: 12 },
+  body: { paddingHorizontal: 13 },
   availableBalanceCard: {
-    backgroundColor: '#F5F6F7',
-    borderColor: '#E6E6E6',
+    backgroundColor: "#F5F6F7",
+    borderColor: "#E6E6E6",
     borderRadius: 6,
     borderWidth: 1,
     elevation: 2,
     marginTop: 16,
     padding: 12,
-    shadowColor: '#0B2448',
+    shadowColor: "#0B2448",
     shadowOffset: { height: 3, width: 0 },
     shadowOpacity: 0.12,
     shadowRadius: 3,
   },
   availableBalanceTitle: {
-    color: '#101010',
+    color: "#101010",
     fontFamily: fontFamilies.heading,
     fontSize: 14,
   },
   availableBalanceAmount: {
-    color: '#17A52B',
+    color: "#17A52B",
     fontFamily: fontFamilies.heading,
     fontSize: 29,
     marginTop: 10,
   },
   limitsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 14,
   },
-  availableLimit: { alignItems: 'flex-end' },
+  availableLimit: { alignItems: "flex-end" },
   limitLabel: {
-    color: '#171717',
+    color: "#171717",
     fontFamily: fontFamilies.body,
     fontSize: 12,
   },
   limitAmount: {
-    color: '#171717',
+    color: "#171717",
     fontFamily: fontFamilies.bodyBold,
     fontSize: 12,
     marginTop: 7,
   },
   titleRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 17,
   },
   sectionTitle: {
-    color: '#101010',
+    color: "#101010",
     fontFamily: fontFamilies.heading,
     fontSize: 16,
   },
@@ -315,92 +329,92 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilies.bodyBold,
     fontSize: 10,
   },
-  quickGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 9, marginTop: 14 },
+  quickGrid: { flexDirection: "row", flexWrap: "wrap", gap: 7, marginTop: 20 },
   quickCard: {
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-    borderColor: '#E5E5E5',
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    borderColor: "#E5E5E5",
     borderRadius: 6,
     borderWidth: 1,
     elevation: 2,
-    height: 95,
-    justifyContent: 'space-between',
-    paddingBottom: 12,
-    paddingTop: 17,
-    shadowColor: '#0B2448',
+    height: 80,
+    justifyContent: "space-between",
+    paddingBottom: 10,
+    paddingTop: 14,
+    shadowColor: "#0B2448",
     shadowOffset: { height: 3, width: 0 },
     shadowOpacity: 0.12,
     shadowRadius: 3,
-    width: '31.5%',
+    width: "31.7%",
   },
-  quickLabel: { color: '#102A55', fontFamily: fontFamilies.body, fontSize: 12 },
+  quickLabel: { color: "#102A55", fontFamily: fontFamilies.body, fontSize: 12 },
   pressed: { opacity: 0.75 },
   carousel: { marginTop: 14 },
-  unit: { color: '#676767', fontFamily: fontFamilies.bodyBold, fontSize: 10 },
+  unit: { color: "#676767", fontFamily: fontFamilies.bodyBold, fontSize: 10 },
   priceList: { gap: 4, marginTop: 9 },
   priceCard: {
-    alignItems: 'center',
-    borderColor: '#E7E7E7',
+    alignItems: "center",
+    borderColor: "#E7E7E7",
     borderRadius: 6,
     borderWidth: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 49,
     paddingHorizontal: 13,
   },
   priceLabel: {
-    color: '#102A55',
+    color: "#102A55",
     flex: 1,
     fontFamily: fontFamilies.body,
     fontSize: 13,
     marginLeft: 12,
   },
-  price: { color: '#102A55', fontFamily: fontFamilies.bodyBold, fontSize: 13 },
+  price: { color: "#102A55", fontFamily: fontFamilies.bodyBold, fontSize: 13 },
   priceDot: { borderRadius: 6, height: 11, marginLeft: 10, width: 11 },
   orderHeading: { marginBottom: 10, marginTop: 18 },
   orderCard: {
-    alignItems: 'center',
-    borderColor: '#E7E7E7',
+    alignItems: "center",
+    borderColor: "#E7E7E7",
     borderRadius: 6,
     borderWidth: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 7,
     minHeight: 79,
     paddingHorizontal: 14,
   },
   orderInfo: { flex: 1, marginLeft: 15 },
   orderId: {
-    color: '#102A55',
+    color: "#102A55",
     fontFamily: fontFamilies.bodyBold,
     fontSize: 13,
   },
   orderDetail: {
-    color: '#102A55',
+    color: "#102A55",
     fontFamily: fontFamilies.body,
     fontSize: 12,
     marginTop: 5,
   },
   orderDate: {
-    color: '#696969',
+    color: "#696969",
     fontFamily: fontFamilies.body,
     fontSize: 9,
     marginTop: 5,
   },
   delivered: {
-    backgroundColor: '#E5F7E8',
+    backgroundColor: "#E5F7E8",
     borderRadius: 10,
     paddingHorizontal: 9,
     paddingVertical: 3,
   },
   deliveredText: {
-    color: '#25AD3B',
+    color: "#25AD3B",
     fontFamily: fontFamilies.body,
     fontSize: 8,
   },
   deliveredOutline: {
-    backgroundColor: '#FFF',
-    borderColor: '#2B91FF',
+    backgroundColor: "#FFF",
+    borderColor: "#2B91FF",
     borderWidth: 2,
     paddingVertical: 2,
   },
-  deliveredOutlineText: { color: '#25AD3B' },
+  deliveredOutlineText: { color: "#25AD3B" },
 });
