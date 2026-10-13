@@ -79,7 +79,7 @@ export default function LoginScreen({navigation}: Props) {
           <View style={styles.buttonWrap}>
             <PrimaryButton
               label="Login"
-              onPress={() => navigation.navigate('Success')}
+              onPress={() => navigation.navigate('Home')}
             />
           </View>
         </View>

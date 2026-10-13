@@ -13,9 +13,9 @@ type Props = { activeTab?: TabKey; onTabPress?: (tab: TabKey) => void };
 
 const tabs = [
   { key: 'home' as const, label: 'Home', Icon: HomeIcon },
-  { key: 'orders' as const, label: 'Orders', Icon: OrderIcon },
-  { key: 'newOrder' as const, label: 'New Orders', Icon: OverlayTabIcon },
-  { key: 'wallet' as const, label: 'Wallet', Icon: TabWalletIcon },
+  { key: 'orders' as const, label: 'Transaction', Icon: OrderIcon },
+  // { key: 'newOrder' as const, label: 'New Orders', Icon: OverlayTabIcon },
+  // { key: 'wallet' as const, label: 'Wallet', Icon: TabWalletIcon },
   { key: 'profile' as const, label: 'Profile', Icon: TabProfileIcon },
 ];
 
